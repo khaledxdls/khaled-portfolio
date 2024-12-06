@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-domain.com",
+    url: "https://khaled-dls.vercel.app",
     siteName: "Khaled Delassi Portfolio",
     title: "Khaled Delassi | Software Engineer",
     description:

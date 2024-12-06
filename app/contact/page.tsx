@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Khaled Delassi | Software Engineer",
     description: "Let's discuss your next web development project",
-    url: "https://your-domain.com/contact",
+    url: "https://khaled-dls.vercel.app/contact",
     type: "website",
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://your-domain.com/contact",
+    canonical: "https://khaled-dls.vercel.app/contact",
   },
   verification: {
     google: "your-google-verification-code", // Add if you have one

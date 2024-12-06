@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Development Workflow | Khaled Delassi",
     description:
       "A detailed look at my professional development process and project workflow",
-    url: "https://your-domain.com/workflow",
+    url: "https://khaled-dls.vercel.app/workflow",
     type: "website",
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://your-domain.com/workflow",
+    canonical: "https://khaled-dls.vercel.app/workflow",
   },
 };
 function page() {

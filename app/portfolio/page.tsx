@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "Web Development Portfolio | Khaled Delassi",
     description:
       "A showcase of innovative web applications and solutions built with modern technologies",
-    url: "https://your-domain.com/portfolio",
+    url: "https://khaled-dls.vercel.app/portfolio",
     type: "website",
   },
   robots: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://your-domain.com/portfolio",
+    canonical: "https://khaled-dls.vercel.app/portfolio",
   },
 };
 function page() {

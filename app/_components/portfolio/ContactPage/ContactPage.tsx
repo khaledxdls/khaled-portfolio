@@ -15,12 +15,17 @@ const ContactPage = () => {
     budget: "",
   });
 
-  const handleChange = ({ e }: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmit = async ({ formData }: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await sendEmail(formData);
       toast.success("Message sent successfully!");
@@ -51,7 +56,7 @@ const ContactPage = () => {
         className="flex flex-wrap justify-center gap-8 text-lg font-medium mt-8"
       >
         <motion.a
-          href="mailto:example@gmail.com"
+          href="mailto:khaleddls03@gmail.com"
           whileHover={{ scale: 1.1 }}
           className="hover:text-gray-400 transition"
         >
@@ -67,7 +72,7 @@ const ContactPage = () => {
           LinkedIn
         </motion.a>
         <motion.a
-          href="https://github.com"
+          href="https://github.com/khaledxdls"
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ scale: 1.1 }}
@@ -86,10 +91,7 @@ const ContactPage = () => {
 
       {/* Form */}
       <motion.form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit({ formData });
-        }}
+        onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
@@ -183,7 +185,7 @@ const ContactPage = () => {
         className="text-sm text-neutral-500 text-center mt-12"
       >
         <p>© DELASSI Khaled Bachir 2024</p>
-        <p className="mt-2">delassi.khaled.bachir@gmail.com</p>
+        <p className="mt-2">khaleddls03@gmail.com</p>
       </motion.div>
 
       {/* Upward Arrow */}

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "Academic Background & Certifications | Khaled Delassi",
     description:
       "Computer Science education and professional development journey in software engineering",
-    url: "https://your-domain.com/education",
+    url: "https://khaled-dls.vercel.app/education",
     type: "website",
     images: [
       {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://your-domain.com/education",
+    canonical: "https://khaled-dls.vercel.app/education",
   },
 };
 function page() {

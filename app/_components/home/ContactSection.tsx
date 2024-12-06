@@ -72,7 +72,7 @@ const ContactSection = () => {
         className="flex space-x-8 text-lg font-medium"
       >
         <a
-          href="mailto:khaleddelassi@gmail.com"
+          href="mailto:khaleddls03@gmail.com"
           className="hover:text-gray-600 transition duration-300"
         >
           E-mail
