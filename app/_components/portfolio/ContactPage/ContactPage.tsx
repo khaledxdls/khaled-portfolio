@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import { toast } from "sonner";
-import { useFormStatus } from "react-dom";
+
 import { sendEmail } from "@/app/_lib/actions";
 
 const ContactPage = () => {
@@ -14,7 +14,7 @@ const ContactPage = () => {
     message: "",
     budget: "",
   });
-  const { pending } = useFormStatus();
+
   const handleChange = ({ e }: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -86,7 +86,10 @@ const ContactPage = () => {
 
       {/* Form */}
       <motion.form
-        action={() => handleSubmit(formData)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit({ formData });
+        }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
@@ -166,10 +169,9 @@ const ContactPage = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          disabled={pending}
           className="w-full bg-neutral-700 text-neutral-100 py-2 px-4 rounded hover:bg-neutral-600 transition"
         >
-          {pending ? "Sending..." : "Submit"}
+          Submit
         </motion.button>
       </motion.form>
 
