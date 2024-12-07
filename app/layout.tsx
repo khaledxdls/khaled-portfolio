@@ -4,7 +4,7 @@ import "./globals.css";
 import NavBar from "./_components/NavBar";
 import { Toaster } from "sonner";
 import type { Viewport } from "next";
-
+import { Analytics } from "@vercel/analytics/react";
 export const viewport: Viewport = {
   themeColor: "#fafaf9",
 };
@@ -81,6 +81,7 @@ export default function RootLayout({
         <NavBar />
         {children}
         <Toaster position="top-right" />
+        <Analytics />
       </body>
     </html>
   );
