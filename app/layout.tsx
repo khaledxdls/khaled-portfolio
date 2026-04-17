@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Varela } from "next/font/google";
+import { Varela, Cinzel } from "next/font/google";
 import "./globals.css";
 import NavBar from "./_components/NavBar";
+import StoryMode from "./_components/StoryMode";
 import { Toaster } from "sonner";
 import type { Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
@@ -12,6 +13,13 @@ const varela = Varela({
   weight: "400",
   display: "swap",
   subsets: ["latin"],
+});
+
+const cinzel = Cinzel({
+  weight: ["400", "700", "900"],
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-cinzel",
 });
 
 export const metadata: Metadata = {
@@ -76,10 +84,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${varela.className}  antialiased bg-stone-50 text-neutral-900 77`}
+        className={`${varela.className} ${cinzel.variable} antialiased bg-stone-50 text-neutral-900`}
       >
         <NavBar />
         {children}
+        <StoryMode />
         <Toaster position="top-right" />
         <Analytics />
       </body>

@@ -1,7 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 function Logo() {
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const spinAnimation = {
     initial: { rotate: 0 },
     animate: {
@@ -9,13 +13,26 @@ function Logo() {
       transition: {
         duration: 2,
         ease: "linear",
-        repeat: 0, // Changed from Infinity to 0 for single rotation
+        repeat: 0,
       },
     },
   };
 
+  const handleTap = () => {
+    tapCountRef.current += 1;
+    if (tapTimerRef.current) clearTimeout(tapTimerRef.current);
+    tapTimerRef.current = setTimeout(() => {
+      tapCountRef.current = 0;
+    }, 3000);
+    if (tapCountRef.current >= 7) {
+      tapCountRef.current = 0;
+      if (tapTimerRef.current) clearTimeout(tapTimerRef.current);
+      window.dispatchEvent(new CustomEvent("activateStoryMode"));
+    }
+  };
+
   return (
-    <div className="text-2xl font-bold relative w-fit">
+    <div className="text-2xl font-bold relative w-fit" onClick={handleTap}>
       <motion.div
         className="flex p-0 rounded-md"
         initial="initial"

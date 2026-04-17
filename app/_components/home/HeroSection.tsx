@@ -140,6 +140,69 @@ function HeroSection() {
           >
             Contact me
           </motion.a>
+
+          {/* ── Artistic Story Mode trigger ── */}
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent("activateStoryMode"))
+            }
+            className="group relative w-full md:w-auto cursor-pointer select-none"
+          >
+            {/* RPG item-frame border */}
+            <div className="relative flex items-center justify-center gap-3 px-5 py-2.5 border border-neutral-300 group-hover:border-[#c9a96e] transition-colors duration-500">
+
+              {/* ── Corner L-bracket accents ── */}
+              <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-neutral-300 group-hover:border-[#c9a96e] -translate-x-px -translate-y-px transition-colors duration-500" />
+              <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-neutral-300 group-hover:border-[#c9a96e] translate-x-px -translate-y-px transition-colors duration-500" />
+              <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-neutral-300 group-hover:border-[#c9a96e] -translate-x-px translate-y-px transition-colors duration-500" />
+              <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-neutral-300 group-hover:border-[#c9a96e] translate-x-px translate-y-px transition-colors duration-500" />
+
+              {/* Breathing left sparkle */}
+              <motion.span
+                animate={{ opacity: [0.25, 0.75, 0.25] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[11px] text-neutral-300 group-hover:text-[#c9a96e] transition-colors duration-500"
+              >
+                ✦
+              </motion.span>
+
+              {/* Label */}
+              <span
+                className="text-[9px] md:text-[10px] tracking-[0.5em] uppercase text-neutral-400 group-hover:text-[#c9a96e] transition-colors duration-500"
+                style={{ fontFamily: "var(--font-cinzel)" }}
+              >
+                The Legend
+              </span>
+
+              {/* Breathing right sparkle (offset) */}
+              <motion.span
+                animate={{ opacity: [0.75, 0.25, 0.75] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[11px] text-neutral-300 group-hover:text-[#c9a96e] transition-colors duration-500"
+              >
+                ✦
+              </motion.span>
+            </div>
+
+            {/* Ambient glow on hover */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                boxShadow: "0 0 24px rgba(201,169,110,0.12), inset 0 0 12px rgba(201,169,110,0.04)",
+              }}
+            />
+
+            {/* "Enter if you dare" — appears below on hover */}
+            <div className="absolute -bottom-5 left-0 right-0 flex justify-center pointer-events-none">
+              <span
+                className="text-[7px] tracking-[0.45em] uppercase opacity-0 group-hover:opacity-60 transition-opacity duration-300"
+                style={{ fontFamily: "var(--font-cinzel)", color: "#c9a96e" }}
+              >
+                enter if you dare
+              </span>
+            </div>
+          </motion.button>
         </motion.div>
       </motion.div>
 

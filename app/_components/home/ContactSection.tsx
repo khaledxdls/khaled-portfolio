@@ -1,10 +1,25 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "-100px" });
+
+  const clickCountRef = useRef(0);
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleCopyrightClick = useCallback(() => {
+    clickCountRef.current += 1;
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    clickTimerRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 2500);
+    if (clickCountRef.current >= 5) {
+      clickCountRef.current = 0;
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+      window.dispatchEvent(new CustomEvent("activateStoryMode"));
+    }
+  }, []);
 
   const fadeInUp = {
     hidden: { y: 30, opacity: 0 },
@@ -128,8 +143,20 @@ const ContactSection = () => {
       </motion.div>
 
       {/* Footer */}
-      <div className="mt-12 text-sm text-gray-600 flex justify-between w-full max-w-4xl">
-        <span>© Khaled Delassi</span>
+      <div className="mt-12 text-sm text-gray-600 flex justify-between items-center w-full max-w-4xl">
+        <span
+          onClick={handleCopyrightClick}
+          className="cursor-default select-none"
+        >
+          © Khaled Delassi
+        </span>
+        {/* Barely-visible hint for the curious */}
+        <span
+          className="text-[8px] tracking-[0.3em] text-neutral-700 select-none hidden sm:block"
+          style={{ opacity: 0.18 }}
+        >
+          ↑ ↑ ↓ ↓ ← → ← → b a
+        </span>
         <a
           href="mailto:khaleddelassi@gmail.com"
           className="hover:text-gray-800 transition duration-300"
