@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.37.0",
     "@vercel/analytics": "^1.4.1",
     "devicons-react": "^1.3.0",
     "framer-motion": "^11.12.0",
@@ -19,7 +21,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sonner": "^1.7.0",
-    "tech-stack-icons": "^2.1.0"
+    "tech-stack-icons": "^2.1.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -2,43 +2,76 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-
 import { toast } from "sonner";
 
 import { sendEmail } from "@/app/_lib/actions";
 
+type FormState = {
+  name: string;
+  email: string;
+  message: string;
+  budget: string;
+  company: string;
+};
+
+const INITIAL_STATE: FormState = {
+  name: "",
+  email: "",
+  message: "",
+  budget: "",
+  company: "",
+};
+
+const MESSAGE_MAX = 4000;
+
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-    budget: "",
-  });
+  const [formData, setFormData] = useState<FormState>(INITIAL_STATE);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [isPending, setIsPending] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isPending) return;
+
+    setIsPending(true);
     try {
-      await sendEmail(formData);
-      toast.success("Message sent successfully!");
-      // Reset form
-      setFormData({ name: "", email: "", message: "", budget: "" });
-    } catch (error) {
-      toast.error("Failed to send message. Please try again.");
+      const result = await sendEmail(formData);
+
+      if (result.ok === true) {
+        toast.success("Message sent — I'll reply within 48 hours.");
+        setFormData(INITIAL_STATE);
+        setFieldErrors({});
+        return;
+      }
+
+      setFieldErrors(result.fieldErrors ?? {});
+      toast.error(result.error);
+    } finally {
+      setIsPending(false);
     }
   };
 
+  const inputClass = (field: keyof FormState) =>
+    `w-full p-2 rounded bg-neutral-700 text-neutral-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-neutral-500 transition ${
+      fieldErrors[field] ? "border-red-500/70 focus:ring-red-500/70" : ""
+    }`;
+
   return (
     <div className="flex flex-col justify-between items-center min-h-screen bg-neutral-900 text-neutral-100 px-4">
-      {/* Heading */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -48,7 +81,6 @@ const ContactPage = () => {
         CONTACTS
       </motion.h1>
 
-      {/* Links */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,7 +95,7 @@ const ContactPage = () => {
           E-mail
         </motion.a>
         <motion.a
-          href="https://linkedin.com"
+          href="https://www.linkedin.com/in/khaled-delassi"
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ scale: 1.1 }}
@@ -80,26 +112,37 @@ const ContactPage = () => {
         >
           GitHub
         </motion.a>
-        <motion.a
-          href="tel:+1234567890"
-          whileHover={{ scale: 1.1 }}
-          className="hover:text-gray-400 transition"
-        >
-          Phone
-        </motion.a>
       </motion.div>
 
-      {/* Form */}
       <motion.form
         onSubmit={handleSubmit}
+        noValidate
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
         className="bg-neutral-800 p-6 rounded-lg shadow-md w-full max-w-md mt-12"
       >
-        <h2 className="text-xl font-medium mb-4">Freelance Work Inquiry</h2>
+        <h2 className="text-xl font-medium mb-1">Freelance Work Inquiry</h2>
+        <p className="text-sm text-neutral-400 mb-5">
+          Tell me about your project. I reply within 48 hours.
+        </p>
 
-        {/* Name Input */}
+        <div
+          aria-hidden="true"
+          className="absolute left-[-9999px] top-[-9999px]"
+        >
+          <label htmlFor="company">Company (leave blank)</label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.company}
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1" htmlFor="name">
             Your Name
@@ -112,11 +155,20 @@ const ContactPage = () => {
             onChange={handleChange}
             placeholder="Enter your name"
             required
-            className="w-full p-2 rounded bg-neutral-700 text-neutral-100 border-none focus:ring-2 focus:ring-neutral-500"
+            maxLength={80}
+            autoComplete="name"
+            disabled={isPending}
+            aria-invalid={!!fieldErrors.name}
+            aria-describedby={fieldErrors.name ? "name-error" : undefined}
+            className={inputClass("name")}
           />
+          {fieldErrors.name && (
+            <p id="name-error" className="mt-1 text-xs text-red-400">
+              {fieldErrors.name}
+            </p>
+          )}
         </div>
 
-        {/* Email Input */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1" htmlFor="email">
             Your Email
@@ -127,33 +179,57 @@ const ContactPage = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Enter your email"
+            placeholder="you@company.com"
             required
-            className="w-full p-2 rounded bg-neutral-700 text-neutral-100 border-none focus:ring-2 focus:ring-neutral-500"
+            maxLength={160}
+            autoComplete="email"
+            disabled={isPending}
+            aria-invalid={!!fieldErrors.email}
+            aria-describedby={fieldErrors.email ? "email-error" : undefined}
+            className={inputClass("email")}
           />
+          {fieldErrors.email && (
+            <p id="email-error" className="mt-1 text-xs text-red-400">
+              {fieldErrors.email}
+            </p>
+          )}
         </div>
 
-        {/* Message Input */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1" htmlFor="message">
-            Message
-          </label>
+          <div className="flex items-center justify-between mb-1">
+            <label className="block text-sm font-medium" htmlFor="message">
+              Message
+            </label>
+            <span className="text-xs text-neutral-500">
+              {formData.message.length}/{MESSAGE_MAX}
+            </span>
+          </div>
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Write your message here"
-            rows={4}
+            placeholder="Briefly describe your project, timeline, and goals"
+            rows={5}
             required
-            className="w-full p-2 rounded bg-neutral-700 text-neutral-100 border-none focus:ring-2 focus:ring-neutral-500"
-          ></textarea>
+            maxLength={MESSAGE_MAX}
+            disabled={isPending}
+            aria-invalid={!!fieldErrors.message}
+            aria-describedby={
+              fieldErrors.message ? "message-error" : undefined
+            }
+            className={inputClass("message")}
+          />
+          {fieldErrors.message && (
+            <p id="message-error" className="mt-1 text-xs text-red-400">
+              {fieldErrors.message}
+            </p>
+          )}
         </div>
 
-        {/* Budget Input */}
-        <div className="mb-4">
+        <div className="mb-5">
           <label className="block text-sm font-medium mb-1" htmlFor="budget">
-            Budget (optional)
+            Budget <span className="text-neutral-500">(optional)</span>
           </label>
           <input
             type="text"
@@ -161,41 +237,44 @@ const ContactPage = () => {
             name="budget"
             value={formData.budget}
             onChange={handleChange}
-            placeholder="Enter your budget"
-            className="w-full p-2 rounded bg-neutral-700 text-gray-100 border-none focus:ring-2 focus:ring-neutral-500"
+            placeholder="e.g. $2,000 – $5,000"
+            maxLength={60}
+            disabled={isPending}
+            className={inputClass("budget")}
           />
         </div>
 
-        {/* Submit Button */}
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={isPending ? undefined : { scale: 1.02 }}
+          whileTap={isPending ? undefined : { scale: 0.98 }}
           type="submit"
-          className="w-full bg-neutral-700 text-neutral-100 py-2 px-4 rounded hover:bg-neutral-600 transition"
+          disabled={isPending}
+          className="w-full bg-neutral-700 text-neutral-100 py-2 px-4 rounded hover:bg-neutral-600 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Submit
+          {isPending && (
+            <span className="h-4 w-4 rounded-full border-2 border-neutral-400 border-t-transparent animate-spin" />
+          )}
+          {isPending ? "Sending…" : "Send message"}
         </motion.button>
       </motion.form>
 
-      {/* Footer */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6 }}
         className="text-sm text-neutral-500 text-center mt-12"
       >
-        <p>© DELASSI Khaled Bachir 2024</p>
+        <p>© DELASSI Khaled Bachir {new Date().getFullYear()}</p>
         <p className="mt-2">khaleddls03@gmail.com</p>
       </motion.div>
 
-      {/* Upward Arrow */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6 }}
         className="mt-12 mb-8"
       >
-        <a href="#top">
+        <a href="#top" aria-label="Back to top">
           <motion.div
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
