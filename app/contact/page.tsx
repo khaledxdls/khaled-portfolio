@@ -35,9 +35,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://khaled-dls.vercel.app/contact",
   },
-  verification: {
-    google: "your-google-verification-code", // Add if you have one
-  },
 };
 function page() {
   return (

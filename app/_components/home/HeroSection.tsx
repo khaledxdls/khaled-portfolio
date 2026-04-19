@@ -94,7 +94,7 @@ function HeroSection() {
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold text-primary-100"
           >
-            Khaled bachir Delassi
+            Khaled Bachir Delassi
           </motion.h1>
           <motion.h2
             variants={fadeInUp}
@@ -214,9 +214,9 @@ function HeroSection() {
       >
         <Image
           src={image_2}
-          alt="Picture of the author"
+          alt="Khaled Bachir Delassi - Full-Stack Software Engineer"
           placeholder="blur"
-          loading="lazy"
+          priority
           className="shadow-lg rounded-xl w-[90%] md:w-[80%] shadow-black"
           quality={80}
         />
