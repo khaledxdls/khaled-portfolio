@@ -5,6 +5,21 @@ import { useRef } from "react";
 import CertificationCard from "../CertificationCard";
 
 const certificationList = [
+  // Specializations
+  {
+    id: 100,
+    title: "Software Architecture for Big Data — Specialization",
+    description:
+      "Three-course Coursera specialization from the University of Colorado Boulder. Explored principles of building and architecting large software systems that use big data, and how to design performant distributed systems across fundamentals, patterns, and applications.",
+    tags: [
+      "Big Data",
+      "Software Architecture",
+      "Distributed Systems",
+      "CU Boulder",
+      "Coursera",
+    ],
+    pdfUrl: "/certification/CourseraDegree.pdf",
+  },
   // Frontend Fundamentals
   {
     id: 10,

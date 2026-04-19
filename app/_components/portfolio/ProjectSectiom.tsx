@@ -23,7 +23,7 @@ const ProjectInfo: ProjectInfoType = {
 
     stack:
       "React, TypeScript and Tailwind CSS,Node.js,Express.js,Sequelize,PostgreSQL",
-    src: "/portfolio_images/superettiii.jpg",
+    src: "/portfolio_images/Superettiii.jpg",
   },
   project2: {
     title: "Kalima",

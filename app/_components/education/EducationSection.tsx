@@ -23,6 +23,16 @@ function EducationSection() {
   };
   const educationData = [
     {
+      university: "University of Colorado Boulder · Coursera",
+      title: "Software Architecture for Big Data — Specialization",
+      startDate: "11/2025",
+      endDate: "01/2026",
+      location: "Remote",
+      tag: "Online",
+      Relevantcoursework:
+        "Fundamentals of Software Architecture for Big Data, Software Architecture Patterns for Big Data, Applications of Software Architecture for Big Data — principles of building and architecting performant distributed systems for large-scale data.",
+    },
+    {
       university: " Amar Telidji University Of Laghouat",
       title: " Master Degree In Business intelligence in Computer Science",
       startDate: "10/2022",

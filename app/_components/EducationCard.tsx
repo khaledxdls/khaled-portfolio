@@ -3,14 +3,15 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 type EducationCardProps = {
-  startDate: string;
+  startDate?: string;
   endDate: string;
   title: string;
   university: string;
   location: string;
-  gpa: string;
-  Relevantcoursework: string;
-  key: number;
+  gpa?: string;
+  Relevantcoursework?: string;
+  tag?: string;
+  key?: number;
 };
 
 function EducationCard({
@@ -21,6 +22,7 @@ function EducationCard({
   location,
   gpa,
   Relevantcoursework,
+  tag,
 }: EducationCardProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "-100px" });
@@ -32,6 +34,11 @@ function EducationCard({
       transition: { duration: 0.8, ease: "easeOut" },
     },
   };
+
+  const dateLabel = startDate
+    ? `${startDate} - ${endDate}`
+    : `${startDate} - ${endDate}`;
+
   return (
     <motion.section
       ref={ref}
@@ -45,15 +52,28 @@ function EducationCard({
       >
         {/* Left Section */}
         <div className="flex items-center space-x-4 mr-6 mb-6 md:mb-0">
-          {/* Year */}
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className=" self-start bg-neutral-900  text-white px-3 py-1.5 rounded-md text-sm font-medium shadow-sm"
-          >
-            {startDate} - {endDate}
-          </motion.div>
+          {/* Year + optional tag */}
+          <div className="flex flex-col gap-2 self-start">
+            <motion.div
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-neutral-900 text-white px-3 py-1.5 rounded-md text-sm font-medium shadow-sm whitespace-nowrap"
+            >
+              {dateLabel}
+            </motion.div>
+            {tag && (
+              <motion.div
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide w-fit"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                {tag}
+              </motion.div>
+            )}
+          </div>
 
           {/* Timeline Element Container */}
           <div className="relative flex items-center justify-center mx-2">
@@ -93,15 +113,19 @@ function EducationCard({
           >
             {university} - {location}
           </motion.p>
-          <motion.ul
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="list-disc ml-6 space-y-2"
-          >
-            <li>GPA: {gpa}</li>
-            <li>Relevant coursework: {Relevantcoursework}</li>
-          </motion.ul>
+          {(gpa || Relevantcoursework) && (
+            <motion.ul
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 1 }}
+              className="list-disc ml-6 space-y-2"
+            >
+              {gpa && <li>GPA: {gpa}</li>}
+              {Relevantcoursework && (
+                <li>Relevant coursework: {Relevantcoursework}</li>
+              )}
+            </motion.ul>
+          )}
         </div>
       </motion.div>
     </motion.section>
