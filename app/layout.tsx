@@ -23,44 +23,62 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://khaled-dls.vercel.app"),
   title: {
-    template: `%s | Khaled Delassi`,
-    default: `Software Engineer | Khaled Delassi`,
+    template: `%s | Khaled Bachir Delassi`,
+    default: `Khaled Bachir Delassi | Full-Stack Software Engineer`,
   },
   description:
-    "Full-stack developer specializing in React, Node.js, and cloud technologies. Expert in building responsive web applications with modern tech stack.",
+    "Khaled Bachir Delassi — full-stack software engineer specializing in React, Next.js, Node.js, TypeScript, and cloud technologies. Explore projects, experience, and education.",
   keywords: [
+    "Khaled Delassi",
+    "Khaled Bachir Delassi",
+    "Khaled Delassi portfolio",
+    "Khaled Delassi developer",
+    "Khaled Delassi software engineer",
     "Software Engineer",
     "Full Stack Developer",
-    "React",
+    "React Developer",
+    "Next.js Developer",
     "Node.js",
     "TypeScript",
-    "Next.js",
     "PostgreSQL",
     "MongoDB",
     "AWS",
-    "Khaled Delassi",
-    "Sequlize js",
   ],
-  authors: [{ name: "Khaled Bachir Delassi" }],
+  authors: [{ name: "Khaled Bachir Delassi", url: "https://khaled-dls.vercel.app" }],
   creator: "Khaled Bachir Delassi",
   publisher: "Khaled Bachir Delassi",
+  alternates: {
+    canonical: "/",
+  },
+  verification: {
+    google: "Iz2NYgVY-kWIiG4ZvUuFYxhEjSXGchOPIrSRqydE6jQ",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://khaled-dls.vercel.app",
-    siteName: "Khaled Delassi Portfolio",
-    title: "Khaled Delassi | Software Engineer",
+    siteName: "Khaled Bachir Delassi Portfolio",
+    title: "Khaled Bachir Delassi | Full-Stack Software Engineer",
     description:
-      "Full-stack developer specializing in React, Node.js, and cloud technologies",
+      "Full-stack developer specializing in React, Next.js, Node.js, and cloud technologies.",
     images: [
       {
         url: "/about_image.jpg",
         width: 1200,
         height: 630,
-        alt: "Khaled Delassi - Software Engineer",
+        alt: "Khaled Bachir Delassi - Full-Stack Software Engineer",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Khaled Bachir Delassi | Full-Stack Software Engineer",
+    description:
+      "Full-stack developer specializing in React, Next.js, Node.js, and cloud technologies.",
+    images: ["/about_image.jpg"],
+    creator: "@Khaledxdls",
   },
   robots: {
     index: true,
@@ -68,11 +86,10 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
   },
 };
 
